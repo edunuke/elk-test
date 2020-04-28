@@ -1,0 +1,25 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+    setup.dashboards.enabled: true
+
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: elasticsearch:9200
+  username: elastic
+  password: changeme
+
+setup.kibana:
+  hosts: kibana:9200
+  username: elastic
+  password: changeme
+

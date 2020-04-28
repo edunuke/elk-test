@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+    filebeat:
+      image: docker.elastic.co/beats/filebeat:7.6.2
+      user: root
+      environment:
+        setup.kibana.host: kibana:5601
+        output.elasticsearch.hosts: elasticsearch:9200
+      volumes:
+        - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+        - /var/lib/docker/containers:/var/lib/docker/containers:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      networks:
+        - docker-elk_elk
+      labels:
+        - 'com.elastic.logs/module:elasticsearch'
+
+networks:
+    docker-elk_elk:
+        external: true
